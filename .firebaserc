@@ -1,20 +1,4 @@
 {
-  "targets": {
-    "pezevents": {
-      "hosting": {
-        "pezevents-app": [
-          "pezevents"
-        ]
-      }
-    },
-    "emoney-170114": {
-      "hosting": {
-        "pezevents-app": [
-          "emoney-170114"
-        ]
-      }
-    }
-  },
   "projects": {
     "default": "pezevents"
   }

@@ -1,6 +1,7 @@
 import { EntityMap, EntityMapOne, Predicate, Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
-import { Business } from '../../../../../dist/pezevents-lib/lib/models/business.interface';
+import { Business } from '@pezetter/pezevents-lib';
+
 
 export const loadBusinessApi = createAction(
   '[Business] Load Business',

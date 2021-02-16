@@ -13,7 +13,7 @@ import { map, skipUntil, take, tap, switchMap, filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'pezevents-app';
+  title = 'pezevents';
   constructor(private store: Store, public afAuth: AngularFireAuth) {
     this.afAuth.authState.pipe(
       tap((authState) => {

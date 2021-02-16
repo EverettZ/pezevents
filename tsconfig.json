@@ -16,7 +16,6 @@
     "importHelpers": true,
     "paths": {
       "pezevents-lib": [
-        "dist/pezevents-lib/pezevents-lib",
         "dist/pezevents-lib"
       ]
     },
