@@ -14,6 +14,12 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "paths": {
+      "pezevents-lib": [
+        "dist/pezevents-lib/pezevents-lib",
+        "dist/pezevents-lib"
+      ]
+    },
     "target": "es2015",
     "module": "es2020",
     "lib": [

@@ -1,0 +1,39 @@
+<mat-card-title class="my-2">Reset Password</mat-card-title>
+
+<mat-card-content>
+    <div class="container mt-4">
+
+        <div class="row justify-content-center">
+            <div class="col-auto">
+
+                <a routerLink="../login" size="small" mat-stroked-button>
+                    Returning user?
+                </a>
+            </div>
+            <div class="col-auto">
+
+
+                <a size="small" routerLink="../registration" mat-stroked-button>
+                    New user?
+                </a>
+            </div>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field class="d-block my-1" [color]="email?.valid && 'accent'">
+                <input matInput formControlName="email" type="email" placeholder="Email" autocomplete="off" />
+
+                <mat-error *ngIf="email?.invalid && email?.dirty">
+                    You must enter a valid email address
+                </mat-error>
+            </mat-form-field>
+
+            <mat-error class="server-error">{{ serverMessage }}</mat-error>
+
+            <button mat-raised-button color="accent" type="submit"
+                [disabled]="form?.invalid || (authLoading$ | async)">
+                Submit
+            </button>
+        </form>
+
+    </div>
+</mat-card-content>

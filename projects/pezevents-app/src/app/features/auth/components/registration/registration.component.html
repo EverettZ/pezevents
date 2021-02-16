@@ -1,0 +1,52 @@
+<mat-card-title class="my-2">Create Account</mat-card-title>
+<mat-card-content>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <a size="small" mat-stroked-button routerLink="../login">
+                    Returning user?
+                </a>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field class="d-block my-2" [color]="email?.valid && 'accent'" appearance="outline">
+
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" placeholder="Email" autocomplete="off" />
+                <mat-error *ngIf="email?.invalid && email?.dirty">
+                    You must enter a valid email address
+                </mat-error>
+
+            </mat-form-field>
+
+            <mat-form-field class="d-block my-2" [color]="email?.valid && 'accent'" appearance="outline">
+
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" type="password" placeholder="Password" autocomplete="off" />
+                <mat-error *ngIf="password?.invalid && password?.dirty">
+                    Password must be at least 6 characters long
+                </mat-error>
+
+            </mat-form-field>
+
+            <mat-form-field class="d-block my-2" [color]="passwordDoesMatch ? 'accent' : 'warn'" appearance="outline">
+
+                <mat-label>Confirm password</mat-label>
+                <input matInput formControlName="passwordConfirm" type="password" placeholder="Confirm password"
+                    autocomplete="off" />
+                <mat-error *ngIf="passwordConfirm?.dirty && !passwordDoesMatch">
+                    Password does not match
+                </mat-error>
+
+            </mat-form-field>
+
+            <mat-error class="server-error">{{ serverMessage }}</mat-error>
+
+            <button class="mt-2" mat-raised-button color="accent" type="submit"
+                [disabled]="form?.invalid || !passwordDoesMatch || (authLoading$ | async)">
+                Submit
+            </button>
+        </form>
+    </div>
+</mat-card-content>
