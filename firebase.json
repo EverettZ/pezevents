@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/pezevents-app",
+    "public": "dist/pezevents",
     "ignore": [
       "firebase.json",
       "**/.*",

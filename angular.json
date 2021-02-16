@@ -3,33 +3,33 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pezevents-app": {
+    "pezevents": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/pezevents-app",
-      "sourceRoot": "projects/pezevents-app/src",
+      "root": "projects/pezevents",
+      "sourceRoot": "projects/pezevents/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pezevents-app",
-            "index": "projects/pezevents-app/src/index.html",
-            "main": "projects/pezevents-app/src/main.ts",
-            "polyfills": "projects/pezevents-app/src/polyfills.ts",
-            "tsConfig": "projects/pezevents-app/tsconfig.app.json",
+            "outputPath": "dist/pezevents",
+            "index": "projects/pezevents/src/index.html",
+            "main": "projects/pezevents/src/main.ts",
+            "polyfills": "projects/pezevents/src/polyfills.ts",
+            "tsConfig": "projects/pezevents/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "projects/pezevents-app/src/favicon.ico",
-              "projects/pezevents-app/src/assets"
+              "projects/pezevents/src/favicon.ico",
+              "projects/pezevents/src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "projects/pezevents-app/src/styles.scss"
+              "projects/pezevents/src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.slim.min.js"
@@ -39,8 +39,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/pezevents-app/src/environments/environment.ts",
-                  "with": "projects/pezevents-app/src/environments/environment.prod.ts"
+                  "replace": "projects/pezevents/src/environments/environment.ts",
+                  "with": "projects/pezevents/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -68,33 +68,33 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pezevents-app:build"
+            "browserTarget": "pezevents:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pezevents-app:build:production"
+              "browserTarget": "pezevents:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pezevents-app:build"
+            "browserTarget": "pezevents:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/pezevents-app/src/test.ts",
-            "polyfills": "projects/pezevents-app/src/polyfills.ts",
-            "tsConfig": "projects/pezevents-app/tsconfig.spec.json",
-            "karmaConfig": "projects/pezevents-app/karma.conf.js",
+            "main": "projects/pezevents/src/test.ts",
+            "polyfills": "projects/pezevents/src/polyfills.ts",
+            "tsConfig": "projects/pezevents/tsconfig.spec.json",
+            "karmaConfig": "projects/pezevents/karma.conf.js",
             "assets": [
-              "projects/pezevents-app/src/favicon.ico",
-              "projects/pezevents-app/src/assets"
+              "projects/pezevents/src/favicon.ico",
+              "projects/pezevents/src/assets"
             ],
             "styles": [
-              "projects/pezevents-app/src/styles.scss"
+              "projects/pezevents/src/styles.scss"
             ],
             "scripts": []
           }
@@ -103,9 +103,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/pezevents-app/tsconfig.app.json",
-              "projects/pezevents-app/tsconfig.spec.json",
-              "projects/pezevents-app/e2e/tsconfig.json"
+              "projects/pezevents/tsconfig.app.json",
+              "projects/pezevents/tsconfig.spec.json",
+              "projects/pezevents/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -115,12 +115,12 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/pezevents-app/e2e/protractor.conf.js",
-            "devServerTarget": "pezevents-app:serve"
+            "protractorConfig": "projects/pezevents/e2e/protractor.conf.js",
+            "devServerTarget": "pezevents:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "pezevents-app:serve:production"
+              "devServerTarget": "pezevents:serve:production"
             }
           }
         },
@@ -171,7 +171,7 @@
       }
     }
   },
-  "defaultProject": "pezevents-app",
+  "defaultProject": "pezevents",
   "cli": {
     "defaultCollection": "@ngrx/schematics"
   }
