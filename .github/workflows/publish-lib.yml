@@ -34,7 +34,6 @@ jobs:
           run: |
               npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN 
         - name: Push changes
-            if: github.event.pull_request.merged == true
             uses: ad-m/github-push-action@main
             with:
               github_token: ${{ secrets.ACTION_AUTH_TOKEN }}
