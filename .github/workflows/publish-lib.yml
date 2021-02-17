@@ -20,9 +20,9 @@ jobs:
             
         - name: Commit files
           run: |
-            cd .\projects\prezevents-lib
+            cd ./projects/prezevents-lib
             npm version patch
-            cd ..\..
+            cd ../..
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add .
@@ -33,9 +33,9 @@ jobs:
             NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           run: |
               npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
-              cd .\dist\pezevents-lib
+              cd ./dist/pezevents-lib
               npm publish
-              cd ..\..
+              cd ../..
 
         - name: Push changes
           run: |
