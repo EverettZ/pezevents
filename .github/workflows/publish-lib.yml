@@ -4,7 +4,7 @@ on:
     branches: [ main ]
     types: [ closed ]
 jobs:
-    build_and_deploy:
+    build_and_deploy_pezevents_lib:
       # Setup OS and Node Version
       runs-on: ubuntu-latest
       strategy:

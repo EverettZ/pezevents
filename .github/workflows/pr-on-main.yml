@@ -8,7 +8,7 @@ name: Build and Test pezevents-lib
       - main
     types: [ opened, reopened, synchronize ]
 jobs:
-  build:
+  build_and_test_lib:
     # Setup OS and Node Version
     runs-on: ubuntu-latest
     strategy:
