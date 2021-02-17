@@ -38,7 +38,7 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add .
-            git commit -m "Release [skip-ci]" -a || true    
+            git commit -m "pezevents-lib version patch bump" -a || true    
             git push   
 
         - name: Publish
