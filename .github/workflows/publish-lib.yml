@@ -14,8 +14,8 @@ jobs:
       steps:
       
         # Checkout code
+        - uses: actions/checkout@v2
         - name: Checkout Code
-          uses: actions/checkout@v2
           run: echo "::debug::whats going on?{github.event}"
             
         - name: Commit files
