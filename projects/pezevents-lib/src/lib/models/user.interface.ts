@@ -1,3 +1,4 @@
+import { Gender } from './gender.enum';
 import { Address } from './address.interface';
 import { SezzionNotification } from './sezzion-notification.interface';
 export interface User  {
@@ -14,7 +15,7 @@ export interface User  {
     displayName: string;
     address: Address;
     dob: Date;
-
+    gender: Gender;
 
     isAnonymous: boolean;
     emailVerified: boolean;
