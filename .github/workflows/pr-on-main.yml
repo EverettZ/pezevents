@@ -1,5 +1,5 @@
 # File for Pull Request on master branch
-name: PR on main
+name: Build and Test pezevents-lib
 
 # When a PR is opened to master
 'on': 
