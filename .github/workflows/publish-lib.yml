@@ -15,14 +15,15 @@ jobs:
       
         # Checkout code
         - uses: actions/checkout@v2
-        - name: Checkout Code
-          run: echo "::debug::whats going on?{github.event}"
+        - run: echo "::debug::whats going on?{github.event}"
+
+        - name: patch pezevents-lib npm version
+          working-directory: ./projects/pezevents-lib
+          run: |
+            npm version patch
             
         - name: Commit files
           run: |
-            cd ./projects/prezevents-lib
-            npm version patch
-            cd ../..
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add .
@@ -31,11 +32,10 @@ jobs:
         - name: Deploy
           env:
             NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          working-directory: ./dist/pezevents-lib
           run: |
               npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
-              cd ./dist/pezevents-lib
               npm publish
-              cd ../..
 
         - name: Push changes
           run: |
