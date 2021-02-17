@@ -4,7 +4,7 @@ on:
     branches: [ main ]
     types: [ closed ]
 jobs:
-    build_and_deploy_pezevents_lib:
+    build_and_publish_pezevents_lib:
       # Setup OS and Node Version
       runs-on: ubuntu-latest
       strategy:
@@ -18,17 +18,27 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v2
 
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.node-version }}
+
+        - name: Install environment
+          run: npm ci
+
         - name: patch pezevents-lib npm version
           working-directory: ./projects/pezevents-lib
-          run: |
-            npm version patch
-            
+          run: npm version patch
+
+        - name: Build pezevents-lib
+          run: npm run build --project pezevents-lib
+
         - name: Commit files
           run: |
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add .
-            git commit -m "Release [skip-ci]" -a || true    
+            git commit -m "pezevents-lib version patch bump" -a || true    
             git push   
 
         - name: Publish
@@ -38,3 +48,5 @@ jobs:
           uses: pascalgn/npm-publish-action@1.3.6
           with: 
             workspace: "./dist/pezevents-lib"
+            publish_command: "npm",
+            publish_args: "--non-interactive"
