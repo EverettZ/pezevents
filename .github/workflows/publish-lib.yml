@@ -15,11 +15,10 @@ jobs:
       steps:
         # Checkout code
         - name: Checkout Code
-            if: github.event.pull_request.merged == true
             uses: actions/checkout@v2
+            run: "::debug::whats going on?{github.event}"
             
         - name: Commit files
-          if: github.event.pull_request.merged == true
           run: |
             cd .\projects\prezevents-lib
             npm version patch
@@ -30,7 +29,6 @@ jobs:
             git commit -m "Release [skip-ci]" -a || true    
 
         - name: Deploy
-            if: github.event.pull_request.merged == true
             env:
               NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
             run: |
