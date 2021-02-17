@@ -1,12 +1,21 @@
+import { Address } from './address.interface';
+import { SezzionNotification } from './sezzion-notification.interface';
 export interface User  {
-    createdAt?: string;
-    lastLoginAt?: string;
-    isAnonymous?: boolean;
-    emailVerified?: boolean;
-    displayName?: string | null;
-    email?: string | null;
-    phoneNumber?: string | null;
-    photoURL?: string | null;
+    id: string;
+    photoUrl?: string | null;
+    created: Date;
+    email: string;
+    phoneNumber: string;
+    lastSignIn: Date;
     providerId?: string;
-    uid?: string;
+    businesses: string[]; // References to bussiness/{businessId}
+    transactions: string[]; // References to all bussiness/transactions/{businessId}
+    notifications: SezzionNotification[];
+    displayName: string;
+    address: Address;
+    dob: Date;
+
+
+    isAnonymous: boolean;
+    emailVerified: boolean;
 }

@@ -4,15 +4,15 @@
 
 export const environment = {
   production: false,
+  staging: false,
   firebase: {
-    apiKey: "AIzaSyA0B3iDU98l_iETQ8gVA_93vLXtOfy6aOw",
-    authDomain: "pezevents.firebaseapp.com",
-    databaseURL: "https://pezevents-default-rtdb.firebaseio.com",
-    projectId: "pezevents",
-    storageBucket: "pezevents.appspot.com",
-    messagingSenderId: "50709407402",
-    appId: "1:50709407402:web:f24883dc871e66f06452d3",
-    measurementId: "G-BMBG577WL3"
+    apiKey: "AIzaSyD-RaW6oGortA2xF9lq5Lsz9BTZz83aKos",
+    authDomain: "dev-pezevents.firebaseapp.com",
+    projectId: "dev-pezevents",
+    storageBucket: "dev-pezevents.appspot.com",
+    messagingSenderId: "608867213120",
+    appId: "1:608867213120:web:20490dc132a8abde4024a5",
+    measurementId: "G-04MCK0VB29"
   }
 };
 

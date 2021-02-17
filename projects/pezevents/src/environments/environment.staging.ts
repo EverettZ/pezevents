@@ -1,6 +1,6 @@
 export const environment = {
-  production: true,
-  staging: false,
+  production: false,
+  staging: true,
   firebase: {
     apiKey: "AIzaSyA0B3iDU98l_iETQ8gVA_93vLXtOfy6aOw",
     authDomain: "pezevents.firebaseapp.com",
@@ -8,7 +8,7 @@ export const environment = {
     projectId: "pezevents",
     storageBucket: "pezevents.appspot.com",
     messagingSenderId: "50709407402",
-    appId: "1:50709407402:web:1e74ce50fc8a6b7a6452d3",
-    measurementId: "G-1661XW788G"
+    appId: "1:50709407402:web:9333ce955892b2e16452d3",
+    measurementId: "G-G11WLK63WG"
   }
 };
