@@ -28,6 +28,7 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PEZEVENTS }}'
           projectId: dev-pezevents
+          target: dev-pezevents
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
   stage_preview:
@@ -41,5 +42,6 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PEZEVENTS }}'
           projectId: stage-pezevents
+          target: stage-pezevents
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

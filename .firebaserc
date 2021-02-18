@@ -1,6 +1,7 @@
 {
   "projects": {
     "default": "pezevents",
-    "dev": "dev-pezevents"
+    "dev": "dev-pezevents",
+    "dev-pezevents": "dev-pezevents"
   }
 }
