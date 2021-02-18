@@ -1,4 +1,3 @@
-
 export enum ViewStatus {
     Initial = 'INITIAL',
     Loading = 'LOADING',

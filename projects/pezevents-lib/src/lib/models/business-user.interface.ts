@@ -1,3 +1,4 @@
+import { Gender } from './gender.enum';
 import { BusinessEvent } from "./business-event.interface";
 import { Role } from "./role.enum";
 
@@ -9,5 +10,7 @@ export interface BusinessUser {
     email: string;
     phoneNumber: string;
     dob: Date;
-    events: string[]; // References to a businesses events
+    gender: Gender;
+    assignedInventory: string[]; // Reference to inventory
+    events: string[]; // References to associated business events
 }

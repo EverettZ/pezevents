@@ -1,5 +1,16 @@
-import { Base } from './base.interface';
-import { DescriptiveInputField } from './descriptive-field.interface';
-export interface InventoryItem extends Base {
-    options: DescriptiveInputField[];
+import { Note } from './note.interface';
+import { Role } from './role.enum';
+export interface InventoryItem  {
+    id: string;
+    displayName: string;
+    photoUrl?: string;
+    description: string;
+    location: string;
+    uses: string[]; // References to business events
+    label: string;
+    category?: string;
+    order: number;
+    role: Role;
+    quantity: number;
+    notes: Note[];
 }
