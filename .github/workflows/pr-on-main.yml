@@ -1,39 +1,39 @@
-# File for Pull Request on master branch
-name: Build and Test pezevents-lib
+# # File for Pull Request on master branch
+# name: Build and Test pezevents-lib
 
-# When a PR is opened to master
-'on': 
-  pull_request:
-    branches:
-      - main
-    types: [ opened, reopened, synchronize ]
-jobs:
-  build_and_test_lib:
-    # Setup OS and Node Version
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Latest nodes only
-        node-version: [ 13.x ]
-    # Define Steps
-    steps:
-      # Checkout code
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
+# # When a PR is opened to master
+# 'on': 
+#   pull_request:
+#     branches:
+#       - main
+#     types: [ opened, reopened, synchronize ]
+# jobs:
+#   build_and_test_lib:
+#     # Setup OS and Node Version
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         # Latest nodes only
+#         node-version: [ 13.x ]
+#     # Define Steps
+#     steps:
+#       # Checkout code
+#       - uses: actions/checkout@v2
+#         with:
+#           ref: ${{ github.event.pull_request.head.ref }}
+#           fetch-depth: 0
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: ${{ matrix.node-version }}
 
-      # Make sure we have all branches
-      - name: Fetch other branches
-        run: git fetch --no-tags --prune --depth=5 origin main
+#       # Make sure we have all branches
+#       - name: Fetch other branches
+#         run: git fetch --no-tags --prune --depth=5 origin main
 
-      - name: Install environment
-        run: npm ci
+#       - name: Install environment
+#         run: npm ci
 
-      - name: Build library
-        run: npm run build --project pezevents-lib
+#       - name: Build library
+#         run: npm run build --project pezevents-lib
