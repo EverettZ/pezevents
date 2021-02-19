@@ -14,4 +14,4 @@ jobs:
       - run: |
         npm ci
         npm run build
-        firebase deploy --only hosting -P dev-pezevents --token ${{secrets.FIREBASE_CI_TOKEN}}
+        firebase deploy --only hosting -P dev-pezevents --token "${{secrets.FIREBASE_CI_TOKEN}}"
