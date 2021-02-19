@@ -12,6 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: NPM Install and Dev Build
-        run: npm ci && npm run build
+        run: npm ci && npm run build && npm install -g firebase-tools
       - name: Firebase Dev Deploy
         run: firebase deploy --only hosting -P dev-pezevents --token ${{ secrets.FIREBASE_CI_TOKEN }}
