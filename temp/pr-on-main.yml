@@ -29,7 +29,7 @@
 #           node-version: ${{ matrix.node-version }}
 
 #       # Make sure we have all branches
-#       - name: Fetch other branches
+#       - name: Fetch other branches 
 #         run: git fetch --no-tags --prune --depth=5 origin main
 
 #       - name: Install environment
