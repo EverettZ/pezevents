@@ -10,8 +10,8 @@ jobs:
   dev_preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-        npm ci
-        npm run build
-        firebase deploy --only hosting -P dev-pezevents --token "${{secrets.FIREBASE_CI_TOKEN}}"
+      - name: NPM install and Dev Build
+        - uses: actions/checkout@v2
+        - run: npm ci && npm run Build
+      - name: Firebase Dev Deploy
+        - run: firebase deploy --only hosting -P dev-pezevents --token "${{secrets.FIREBASE_CI_TOKEN}}"
