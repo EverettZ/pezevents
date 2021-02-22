@@ -110,8 +110,41 @@ jobs:
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
     
+  comment_pr_url:
 
-  print_github_context:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    # Set PROJECT_ID env value
+    - name: Set dev projectId
+      if: github.base_ref == 'develop'
+      env:
+        PROJECT_ID: "dev-pezevents"
+
+    - name: Set stage projectId
+      if: github.base_ref == 'staging'
+      env:
+        PROJECT_ID: "stage-pezevents"
+
+    - name: Set main projectId
+      if: github.base_ref == 'main'
+      env:
+        PROJECT_ID: "pezevents"
+
+    - uses: w9jds/firebase-action@v2.0.0
+      with:
+        args: hosting:channel:list -P ${{env.PROJECT_ID}}
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+
+    - name: Add PR Comment
+      uses: mshick/add-pr-comment@v1
+      with:
+        message: |
+          Preview deployment complete:
+
+  print_outputs:
     runs-on: ubuntu-latest
     steps:
       - name: Dump extra values
