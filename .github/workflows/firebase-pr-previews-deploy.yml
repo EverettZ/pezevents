@@ -46,6 +46,14 @@ jobs:
   #       env:
   #         FIREBASE_CLI_PREVIEWS: hostingchannels
 
+  one:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
   develop_pr_preview:
     
     runs-on: ubuntu-latest
@@ -56,9 +64,6 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '13.x'
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-    - run: echo "$GITHUB_CONTEXT"
     - run: npm ci
     - run: npm run build
     - uses: w9jds/firebase-action@v2.0.0
