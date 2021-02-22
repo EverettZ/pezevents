@@ -130,9 +130,8 @@ jobs:
       if: github.base_ref == 'main'
       env:
         PROJECT_ID: "pezevents"
-    
-    - name: hostingList
-      uses: w9jds/firebase-action@v2.0.0
+
+    - uses: w9jds/firebase-action@v2.0.0
       with:
         args: hosting:channel:list -P ${{env.PROJECT_ID}}
       env:
@@ -143,8 +142,11 @@ jobs:
       with:
         message: |
           Preview deployment complete:
-      steps:
-        - name: Dump extra values
-          env:
-            JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview.outputs) }}
-          run: echo "$JOB_OUTPUTS"
+
+  print_github_context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump extra values
+        env:
+          JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview.outputs) }}
+        run: echo "$JOB_OUTPUTS"
