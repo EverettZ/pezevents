@@ -4,9 +4,6 @@
 name: Deploy previews for PRs to main/staging/develop
 'on': pull_request
 
-env:
-  projectId: 'plugin-fn-xml-node'
-
 jobs:
   # prod_preview:
   #   runs-on: ubuntu-latest
