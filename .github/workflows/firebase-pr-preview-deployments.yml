@@ -111,9 +111,10 @@ jobs:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
   print_outputs:
+    needs: [develop_pr_preview]
     runs-on: ubuntu-latest
     steps:
       - name: Dump extra values
         env:
-          JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview.outputs) }}
+          JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview) }}
         run: echo "$JOB_OUTPUTS"
