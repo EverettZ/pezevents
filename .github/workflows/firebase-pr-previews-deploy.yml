@@ -57,7 +57,7 @@ jobs:
   develop_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    if: github.base_ref == 'develop'
     
     steps:
     - uses: actions/checkout@master
@@ -75,7 +75,7 @@ jobs:
   staging_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/staging'
+    if: github.base_ref == 'staging'
     
     steps:
     - uses: actions/checkout@master
@@ -94,7 +94,7 @@ jobs:
   main_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.base_ref == 'main'
     
     steps:
     - uses: actions/checkout@master
