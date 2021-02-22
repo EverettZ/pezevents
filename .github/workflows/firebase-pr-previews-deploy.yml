@@ -49,13 +49,16 @@ jobs:
   develop_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop'
     
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
         node-version: '13.x'
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+    - run: echo "$GITHUB_CONTEXT"
     - run: npm ci
     - run: npm run build
     - uses: w9jds/firebase-action@v2.0.0
@@ -67,7 +70,7 @@ jobs:
   staging_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/staging'
+    if: github.ref == 'refs/heads/staging'
     
     steps:
     - uses: actions/checkout@master
@@ -86,7 +89,7 @@ jobs:
   main_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/staging'
+    if: github.ref == 'refs/heads/staging'
     
     steps:
     - uses: actions/checkout@master
