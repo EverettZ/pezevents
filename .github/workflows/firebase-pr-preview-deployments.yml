@@ -143,11 +143,8 @@ jobs:
       with:
         message: |
           Preview deployment complete:
-
-  print_github_context:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump extra values
-        env:
-          JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview.outputs) }}
-        run: echo "$JOB_OUTPUTS"
+      steps:
+        - name: Dump extra values
+          env:
+            JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview.outputs) }}
+          run: echo "$JOB_OUTPUTS"
