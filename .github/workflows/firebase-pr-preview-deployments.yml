@@ -115,6 +115,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@master
     # Set PROJECT_ID env value
     - name: Set dev projectId
       if: github.base_ref == 'develop'
