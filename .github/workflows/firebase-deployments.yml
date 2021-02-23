@@ -67,21 +67,21 @@ jobs:
         id: app_id_develop
         run: |
           echo "This is a PR into the develop branch. Using dev-pezevents."
-          echo "::set-output name=app_id::dev-pezevents"
+          echo "::set-output name=app_id::'dev-pezevents'"
 
       - name: Set stage app id
         if: github.ref == 'refs/heads/staging'
         id: app_id_stage
         run: |
           echo "This is a PR into the develop branch. Using stage-pezevents."
-          echo "::set-output name=app_id::stage-pezevents"
+          echo "::set-output name=app_id::'stage-pezevents'"
 
       - name: Set prod app id
         if: github.ref == 'refs/heads/main'
         id: app_id_main
         run: |
           echo "This is a PR into the develop branch. Using pezevents."
-          echo "::set-output name=app_id::pezevents"
+          echo "::set-output name=app_id::'pezevents'"
 
   print_prereqs:
     name: Print pre-requisite need outputs
