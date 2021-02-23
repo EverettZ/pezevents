@@ -2,13 +2,12 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Dev
-'on': 
+"on":
   push:
     branches:
       - develop
 
 jobs:
-
   # Print github context
   print_github_context:
     runs-on: ubuntu-latest
@@ -17,7 +16,6 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
-
 
   # Check filechanges for functions deployment
   check_functions:
@@ -36,7 +34,7 @@ jobs:
         run: |
           echo "=============== list modified files ==============="
           git diff --name-only HEAD^ HEAD
-          
+
           echo "========== check paths of modified files =========="
           git diff --name-only HEAD^ HEAD > files.txt
           while IFS= read -r file
@@ -69,39 +67,39 @@ jobs:
     if: github.ref == 'develop'
 
     steps:
-    - name: Checkout and setup node
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
-      with:
-        node-version: '13.x'
+      - name: Checkout and setup node
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: "13.x"
 
-    - name: Build app
-      run: | 
-        npm ci
-        npm run build
+      - name: Build app
+        run: |
+          npm ci
+          npm run build
 
-    - name: Build functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
-      run: |
-        cd ./functions
-        npm ci
-        npm run build
-        cd ..
+      - name: Build functions
+        if: needs.check_functions.outputs.deploy_functions == 'true'
+        run: |
+          cd ./functions
+          npm ci
+          npm run build
+          cd ..
 
-    - name: Deploy hosting
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy -P dev-pezevents --only hosting:dev-pezevents 
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+      - name: Deploy hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P dev-pezevents --only hosting:dev-pezevents
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
-    - name: Deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy -P dev-pezevents --only functions
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+      - name: Deploy functions
+        if: needs.check_functions.outputs.deploy_functions == 'true'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P dev-pezevents --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
   # Deploy app to staging
   # stage.sezzion.com
@@ -112,41 +110,41 @@ jobs:
     if: github.ref == 'staging'
 
     steps:
-    - name: Checkout and setup node
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
-      with:
-        node-version: '13.x'
+      - name: Checkout and setup node
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: "13.x"
 
-    - name: Build app
-      run: |
-        npm ci
-        npm run build
+      - name: Build app
+        run: |
+          npm ci
+          npm run build
 
-    - name: Build functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
-      run: |
-        cd ./functions
-        npm ci
-        npm run build
-        cd ..
+      - name: Build functions
+        if: needs.check_functions.outputs.deploy_functions == 'true'
+        run: |
+          cd ./functions
+          npm ci
+          npm run build
+          cd ..
 
-    - name: Deploy hosting
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy -P stage-pezevents --only hosting:stage-pezevents 
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+      - name: Deploy hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P stage-pezevents --only hosting:stage-pezevents
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
-    - name: Deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy -P stage-pezevents --only functions
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+      - name: Deploy functions
+        if: needs.check_functions.outputs.deploy_functions == 'true'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P stage-pezevents --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
-  # Deploy app to production. 
+  # Deploy app to production.
   # sezzion.com
   prod_deploy:
     runs-on: ubuntu-latest
@@ -155,35 +153,35 @@ jobs:
     if: github.ref == 'main'
 
     steps:
-    - name: Checkout and setup node
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: '13.x'
+      - name: Checkout and setup node
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: "13.x"
 
-    - name: Build and deploy app
-      run: npm ci && npm run build --prod
-    
-    - name: Deploy prod app
-      uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PEZEVENTS }}'
-        channelId: live
-        projectId: pezevents
-        target: pezevents
-      env:
-        FIREBASE_CLI_PREVIEWS: hostingchannels
+      - name: Build and deploy app
+        run: npm ci && npm run build --prod
 
-    - name: Build and deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
-      working-directory: ./functions
-      run: npm ci && npm run build
+      - name: Deploy prod app
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PEZEVENTS }}"
+          channelId: live
+          projectId: pezevents
+          target: pezevents
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
 
-    - name: Deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
-    - uses: w9jds/firebase-action@master
-      with:
-        args: deploy -P stage-pezevents --only functions
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+      - name: Build and deploy functions
+        if: needs.check_functions.outputs.deploy_functions == 'true'
+        working-directory: ./functions
+        run: npm ci && npm run build
+
+      - name: Deploy functions
+        if: needs.check_functions.outputs.deploy_functions == 'true'
+      - uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P stage-pezevents --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
