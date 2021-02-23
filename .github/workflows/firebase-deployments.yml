@@ -64,21 +64,21 @@ jobs:
 
       - name: Set dev app id
         if: github.ref == 'develop'
-        id: app_id_check
+        id: app_id_develop
         run: |
           echo "This is a PR into the develop branch. Using dev-pezevents."
           echo "::set-output name=app_id::dev-pezevents"
 
       - name: Set stage app id
         if: github.ref == 'staging'
-        id: app_id_check
+        id: app_id_stage
         run: |
           echo "This is a PR into the develop branch. Using stage-pezevents."
           echo "::set-output name=app_id::stage-pezevents"
 
       - name: Set prod app id
         if: github.ref == 'main'
-        id: app_id_check
+        id: app_id_main
         run: |
           echo "This is a PR into the develop branch. Using pezevents."
           echo "::set-output name=app_id::pezevents"
