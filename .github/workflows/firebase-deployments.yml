@@ -170,12 +170,12 @@ jobs:
         run: |
           npm ci
           npm run build
-
-    - name: Deploy functions
-    - if: needs.check_functions.outputs.deploy_functions == 'true'
-      working-directory: ./
-    - uses: w9jds/firebase-action@master
-      with:
-        args: deploy -P stage-pezevents --only functions
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+          
+      - name: Deploy functions
+      - if: needs.check_functions.outputs.deploy_functions == 'true'
+        working-directory: ./
+      - uses: w9jds/firebase-action@master
+        with:
+          args: deploy -P stage-pezevents --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
