@@ -67,7 +67,6 @@ jobs:
     if: github.ref == 'develop'
 
     steps:
-      - name: Checkout and setup node
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
@@ -110,7 +109,6 @@ jobs:
     if: github.ref == 'staging'
 
     steps:
-      - name: Checkout and setup node
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
@@ -153,14 +151,15 @@ jobs:
     if: github.ref == 'main'
 
     steps:
-      - name: Checkout and setup node
       - uses: actions/checkout@v2
       - uses: actions/setup-node@master
         with:
           node-version: "13.x"
 
       - name: Build and deploy app
-        run: npm ci && npm run build --prod
+        run: |
+          npm ci
+          npm run build --prod
 
       - name: Deploy prod app
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -176,7 +175,9 @@ jobs:
       - name: Build and deploy functions
         if: needs.check_functions.outputs.deploy_functions == 'true'
         working-directory: ./functions
-        run: npm ci && npm run build
+        run: |
+          npm ci
+          npm run build
 
       - name: Deploy functions
         if: needs.check_functions.outputs.deploy_functions == 'true'
