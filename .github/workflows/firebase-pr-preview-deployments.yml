@@ -46,6 +46,7 @@ jobs:
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
+
   staging_pr_preview:
     runs-on: ubuntu-latest
     if: github.head_ref == 'staging'
@@ -94,6 +95,14 @@ jobs:
         args: hosting:channel:deploy -P pezevents --only pezevents  ${{github.run_id}}-${{github.run_number}}
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+
+  print_github_context_after:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context after run
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
   # prod_preview:
   #   runs-on: ubuntu-latest
   #   if: github.ref != 'refs/heads/main'
