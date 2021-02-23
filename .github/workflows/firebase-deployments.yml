@@ -154,8 +154,8 @@ jobs:
           node-version: '13.x'
 
       - name: Build and deploy app
-      - run: npm ci && npm run build --prod
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+        run: npm ci && npm run build --prod
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PEZEVENTS }}'
@@ -168,12 +168,12 @@ jobs:
       - name: Build and deploy functions
         if: needs.check_functions.outputs.deploy_functions == 'true'
         working-directory: ./functions
-      - run: npm ci && npm run build
+        run: npm ci && npm run build
 
       - name: Deploy functions
         if: needs.check_functions.outputs.deploy_functions == 'true'
         working-directory: ./
-      - uses: w9jds/firebase-action@master
+        uses: w9jds/firebase-action@master
         with:
           args: deploy -P stage-pezevents --only functions
         env:
