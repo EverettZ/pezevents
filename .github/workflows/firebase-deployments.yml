@@ -118,7 +118,7 @@ jobs:
     - run: npm run build
 
     - name: Build functions
-    if: needs.check_functions.outputs.deploy_functions == 'true'
+    - if: needs.check_functions.outputs.deploy_functions == 'true'
     - run: |
         cd ./functions
         npm ci
@@ -133,7 +133,7 @@ jobs:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
     - name: Deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
+    - if: needs.check_functions.outputs.deploy_functions == 'true'
     - uses: w9jds/firebase-action@master
       with:
         args: deploy -P stage-pezevents --only functions
@@ -162,7 +162,7 @@ jobs:
           FIREBASE_CLI_PREVIEWS: hostingchannels
 
       - name: Build and deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
+      - if: needs.check_functions.outputs.deploy_functions == 'true'
       - run: |
         cd ./functions
         npm ci
@@ -170,7 +170,7 @@ jobs:
         cd ..
 
     - name: Deploy functions
-      if: needs.check_functions.outputs.deploy_functions == 'true'
+    - if: needs.check_functions.outputs.deploy_functions == 'true'
     - uses: w9jds/firebase-action@master
       with:
         args: deploy -P stage-pezevents --only functions
