@@ -180,7 +180,7 @@ jobs:
 
       - name: Deploy functions
         if: needs.check_functions.outputs.deploy_functions == 'true'
-      - uses: w9jds/firebase-action@master
+        uses: w9jds/firebase-action@master
         with:
           args: deploy -P stage-pezevents --only functions
         env:
