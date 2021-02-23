@@ -121,11 +121,10 @@ jobs:
 
       - name: Build functions
         if: needs.check_functions.outputs.deploy_functions == 'true'
+        working-directory: ./functions
         run: |
-          cd ./functions
           npm ci
           npm run build
-          cd ..
 
       - name: Deploy hosting
         uses: w9jds/firebase-action@master
