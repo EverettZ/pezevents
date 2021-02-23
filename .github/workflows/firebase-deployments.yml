@@ -107,13 +107,13 @@ jobs:
           npm ci
           npm run build
 
-      - name: Build app dev
+      - name: Build app stage
         if: needs.check_env.outputs.app_id == 'stage-pezevents'
         run: |
           npm ci
           npm run build:staging
 
-      - name: Build app dev
+      - name: Build app prod
         if: needs.check_env.outputs.app_id == 'pezevents'
         run: |
           npm ci
@@ -130,7 +130,7 @@ jobs:
         if: needs.check_functions.outputs.deploy_functions == 'true'
         uses: w9jds/firebase-action@master
         with:
-          args: deploy -P dev-pezevents --only functions
+          args: deploy -P ${{needs.check_env.outputs.app_id}} --only functions
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
