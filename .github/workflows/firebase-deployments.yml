@@ -163,6 +163,9 @@ jobs:
 
       - name: Build and deploy functions
       - if: needs.check_functions.outputs.deploy_functions == 'true'
+      - uses: actions/setup-node@master
+        with:
+          node-version: '13.x'
       - run: |
         cd .\functions
         npm ci
