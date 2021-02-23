@@ -53,8 +53,6 @@ jobs:
 
   check_env:
     name: Check env
-    outputs:
-      app_id: ${{ steps.check_env.outputs.app_id }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -67,21 +65,21 @@ jobs:
         id: app_id_develop
         run: |
           echo "This is a PR into the develop branch. Using dev-pezevents."
-          echo "::set-output name=app_id::'dev-pezevents'"
+          echo "app_id=dev-pezevents" >> $GITHUB_ENV
 
       - name: Set stage app id
         if: github.ref == 'refs/heads/staging'
         id: app_id_stage
         run: |
           echo "This is a PR into the develop branch. Using stage-pezevents."
-          echo "::set-output name=app_id::'stage-pezevents'"
+          echo "app_id=stage-pezevents" >> $GITHUB_ENV
 
       - name: Set prod app id
         if: github.ref == 'refs/heads/main'
         id: app_id_main
         run: |
           echo "This is a PR into the develop branch. Using pezevents."
-          echo "::set-output name=app_id::'pezevents'"
+          echo "app_id=pezevents" >> $GITHUB_ENV
 
   print_prereqs:
     name: Print pre-requisite need outputs
@@ -91,7 +89,7 @@ jobs:
       - name: check_functions outputs
         run: echo "deploy_functions = ${{needs.check_functions.outputs.deploy_functions}}"
       - name: check_env outputs
-        run: echo "app_id = ${{needs.check_env.outputs.app_id}}"
+        run: echo "app_id = ${{env.app_id}}"
 
   # Deploy app to development
   # dev.sezzion.com
@@ -105,19 +103,19 @@ jobs:
           node-version: "13.x"
 
       - name: Build app dev
-        if: needs.check_env.outputs.app_id == 'dev-pezevents'
+        if: env.app_id == 'dev-pezevents'
         run: |
           npm ci
           npm run build
 
       - name: Build app dev
-        if: needs.check_env.outputs.app_id == 'stage-pezevents'
+        if: env.app_id == 'stage-pezevents'
         run: |
           npm ci
           npm run build:staging
 
       - name: Build app dev
-        if: needs.check_env.outputs.app_id == 'pezevents'
+        if: env.app_id == 'pezevents'
         run: |
           npm ci
           npm run build:prod
@@ -138,15 +136,15 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
       - name: Deploy dev or stage
-        if: needs.check_env.outputs.app_id == 'dev-pezevents' || needs.check_env.outputs.app_id == 'stage-pezevents'
+        if: env.app_id == 'dev-pezevents' || env.app_id == 'stage-pezevents'
         uses: w9jds/firebase-action@master
         with:
-          args: deploy -P ${{needs.check_env.outputs.app_id}} --only hosting:${{needs.check_env.outputs.app_id}}
+          args: deploy -P ${{env.app_id}} --only hosting:${{env.app_id}}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
       - name: Deploy prod
-        if: needs.check_env.outputs.app_id == 'pezevents'
+        if: env.app_id == 'pezevents'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
