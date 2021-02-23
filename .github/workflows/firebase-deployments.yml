@@ -148,11 +148,10 @@ jobs:
     if: github.ref == 'main'
 
     steps:
-    - name: Checkout and Node setup 
-    uses: actions/checkout@v2
-    uses: actions/setup-node@master
-    with:
-      node-version: '13.x'
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@master
+      with:
+        node-version: '13.x'
 
     - name: Build and deploy app
     run: npm ci && npm run build --prod
