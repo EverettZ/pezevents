@@ -5,6 +5,7 @@ name: Deploy previews for PRs to main/staging/develop
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    branches: [develop, staging, main]
   # push:
   #   branches:
   #     - 'dev-preview/**'
