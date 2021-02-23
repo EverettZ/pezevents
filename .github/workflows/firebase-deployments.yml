@@ -83,14 +83,15 @@ jobs:
           echo "This is a PR into the develop branch. Using pezevents."
           echo "::set-output name=app_id::pezevents"
 
-  job_for_functions:
-    name: Job for 'functions' folder
-    needs: check_functions
-    if: needs.check_functions.outputs.deploy_functions == 'true'
+  print_prereqs:
+    name: Print pre-requisite need outputs
+    needs: [check_functions, check_env]
     runs-on: ubuntu-latest
     steps:
-      - name: run for 'functions' folder
-        run: echo "This job runs only when all the modified files are under the 'functions' folder."
+      - name: check_functions outputs
+        run: echo "deploy_functions = ${{needs.check_functions.outputs.deploy_functions}}"
+      - name: check_env outputs
+        run: echo "app_id = ${{needs.check_env.outputs.app_id}}"
 
   # Deploy app to development
   # dev.sezzion.com
