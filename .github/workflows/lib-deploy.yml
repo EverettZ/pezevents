@@ -29,7 +29,7 @@ jobs:
           do
             echo $file
             if [[ $file == projects/pezevents-lib/* ]]; then
-              echo "This modified file is not under the 'projects/pezevents-lib' folder."
+              echo "This modified file is under the 'projects/pezevents-lib' folder."
               echo "::set-output name=lib_changed::true"
               break
             fi
@@ -55,13 +55,10 @@ jobs:
         
     - name: Build pezevents-lib
       run: npm run build-pezevents-lib
-
+      
     - name: Publish if version has been updated
-      uses: pascalgn/npm-publish-action@1.3.6
-      with: 
-        publish_command: "npm"
-        workspace: "./dist/pezevents-lib"
-        publish_args: "--non-interactive --verbose"
-      env:
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_AUTH_TOKEN }}
+        check-version: true
+        package: ./dist/pezevents-lib/package.json
