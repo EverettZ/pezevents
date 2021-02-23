@@ -166,10 +166,10 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: '13.x'
-      - run: cd .\functions
+      - run: cd /functions
       - run: npm ci
       - run: npm run build
-      - run: ..
+      - run: ../
 
     - name: Deploy functions
     - if: needs.check_functions.outputs.deploy_functions == 'true'
