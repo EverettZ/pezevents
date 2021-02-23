@@ -56,36 +56,48 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
 
   develop_pr_preview:
-    
     runs-on: ubuntu-latest
     if: github.base_ref == 'develop'
     
     steps:
+    # Checkout and setup node
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
         node-version: '13.x'
-    - run: npm ci
-    - run: npm run build
-    - uses: w9jds/firebase-action@v2.0.0
+    
+    # Install dependencies and build
+    - name: Build dev
+      run: | 
+        npm ci
+        npm run build
+
+    - name: Deploy dev preview 
+      uses: w9jds/firebase-action@v2.0.0
       with:
         args: hosting:channel:deploy -P dev-pezevents --only dev-pezevents  ${{github.run_id}}-${{github.run_number}}
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
   staging_pr_preview:
-    
     runs-on: ubuntu-latest
     if: github.base_ref == 'staging'
     
     steps:
+    # Checkout and setup node
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
         node-version: '13.x'
-    - run: npm ci
-    - run: npm run build:staging
-    - uses: w9jds/firebase-action@v2.0.0
+    
+    # Install dependencies and build
+    - name: Build staging
+      run: | 
+        npm ci
+        npm run build:staging
+
+    - name: Deploy staging preview 
+      uses: w9jds/firebase-action@v2.0.0
       with:
         args: hosting:channel:deploy -P stage-pezevents --only stage-pezevents  ${{github.run_id}}-${{github.run_number}}
       env:
@@ -93,28 +105,25 @@ jobs:
 
 
   main_pr_preview:
-    
     runs-on: ubuntu-latest
     if: github.base_ref == 'main'
     
     steps:
+    # Checkout and setup node
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
         node-version: '13.x'
-    - run: npm ci
-    - run: npm run build:prod
-    - uses: w9jds/firebase-action@v2.0.0
+    
+    # Install dependencies and build
+    - name: Build prod
+      run: | 
+        npm ci
+        npm run build:prod
+
+    - name: Deploy prod preview 
+      uses: w9jds/firebase-action@v2.0.0
       with:
         args: hosting:channel:deploy -P pezevents --only pezevents  ${{github.run_id}}-${{github.run_number}}
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
-
-  print_outputs:
-    needs: [develop_pr_preview]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump extra values
-        env:
-          JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview) }}
-        run: echo "$JOB_OUTPUTS"
