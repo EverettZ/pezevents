@@ -69,24 +69,26 @@ jobs:
     if: github.ref == 'develop'
 
     steps:
-    - name: Build app
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
+    - name: Checkout and setup node
+      uses: actions/checkout@master
+      uses: actions/setup-node@master
       with:
         node-version: '13.x'
-    - run: npm ci
-    - run: npm run build
+
+    - name: Build app
+      run: npm ci
+      run: npm run build
 
     - name: Build functions
-    - if: needs.check_functions.outputs.deploy_functions == 'true'
-    - run: |
+      if: needs.check_functions.outputs.deploy_functions == 'true'
+      run: |
         cd ./functions
         npm ci
         npm run build
         cd ..
 
     - name: Deploy hosting
-    - uses: w9jds/firebase-action@master
+      uses: w9jds/firebase-action@master
       with:
         args: deploy -P dev-pezevents --only hosting:dev-pezevents 
       env:
@@ -94,7 +96,7 @@ jobs:
 
     - name: Deploy functions
       if: needs.check_functions.outputs.deploy_functions == 'true'
-    - uses: w9jds/firebase-action@master
+      uses: w9jds/firebase-action@master
       with:
         args: deploy -P dev-pezevents --only functions
       env:
@@ -109,32 +111,34 @@ jobs:
     if: github.ref == 'staging'
 
     steps:
-    - name: Build app
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
+    - name: Checkout and setup node
+      uses: actions/checkout@master
+      uses: actions/setup-node@master
       with:
         node-version: '13.x'
-    - run: npm ci
-    - run: npm run build
+
+    - name: Build app
+      run: npm ci
+      run: npm run build
 
     - name: Build functions
-    - if: needs.check_functions.outputs.deploy_functions == 'true'
-    - run: |
+      if: needs.check_functions.outputs.deploy_functions == 'true'
+      run: |
         cd ./functions
         npm ci
         npm run build
         cd ..
 
     - name: Deploy hosting
-    - uses: w9jds/firebase-action@master
+      uses: w9jds/firebase-action@master
       with:
         args: deploy -P stage-pezevents --only hosting:stage-pezevents 
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 
     - name: Deploy functions
-    - if: needs.check_functions.outputs.deploy_functions == 'true'
-    - uses: w9jds/firebase-action@master
+      if: needs.check_functions.outputs.deploy_functions == 'true'
+      uses: w9jds/firebase-action@master
       with:
         args: deploy -P stage-pezevents --only functions
       env:
@@ -148,14 +152,17 @@ jobs:
     if: github.ref == 'main'
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: '13.x'
+      - name: Checkout and setup node
+        uses: actions/checkout@v2
+        uses: actions/setup-node@master
+        with:
+          node-version: '13.x'
 
     - name: Build and deploy app
       run: npm ci && npm run build --prod
-    - uses: FirebaseExtended/action-hosting-deploy@v0
+    
+    - name: Deploy prod app
+      uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         repoToken: '${{ secrets.GITHUB_TOKEN }}'
         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PEZEVENTS }}'
