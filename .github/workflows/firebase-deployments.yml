@@ -52,7 +52,7 @@ jobs:
           done < files.txt
 
   check_env:
-    name: Check files
+    name: Check env
     outputs:
       app_id: ${{ steps.check_env.outputs.app_id }}
     runs-on: ubuntu-latest
@@ -63,21 +63,21 @@ jobs:
           fetch-depth: 2
 
       - name: Set dev app id
-        if: github.ref == 'develop'
+        if: github.ref == 'refs/heads/develop'
         id: app_id_develop
         run: |
           echo "This is a PR into the develop branch. Using dev-pezevents."
           echo "::set-output name=app_id::dev-pezevents"
 
       - name: Set stage app id
-        if: github.ref == 'staging'
+        if: github.ref == 'refs/heads/staging'
         id: app_id_stage
         run: |
           echo "This is a PR into the develop branch. Using stage-pezevents."
           echo "::set-output name=app_id::stage-pezevents"
 
       - name: Set prod app id
-        if: github.ref == 'main'
+        if: github.ref == 'refs/heads/main'
         id: app_id_main
         run: |
           echo "This is a PR into the develop branch. Using pezevents."
