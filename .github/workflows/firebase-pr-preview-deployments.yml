@@ -3,6 +3,7 @@
 
 name: Deploy previews for PRs to main/staging/develop
 'on': pull_request
+
 jobs:
   # prod_preview:
   #   runs-on: ubuntu-latest
@@ -46,10 +47,18 @@ jobs:
   #       env:
   #         FIREBASE_CLI_PREVIEWS: hostingchannels
 
+  print_github_context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
   develop_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/develop'
+    if: github.base_ref == 'develop'
     
     steps:
     - uses: actions/checkout@master
@@ -67,7 +76,7 @@ jobs:
   staging_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/staging'
+    if: github.base_ref == 'staging'
     
     steps:
     - uses: actions/checkout@master
@@ -86,7 +95,7 @@ jobs:
   main_pr_preview:
     
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/staging'
+    if: github.base_ref == 'main'
     
     steps:
     - uses: actions/checkout@master
@@ -100,3 +109,12 @@ jobs:
         args: hosting:channel:deploy -P pezevents --only pezevents  ${{github.run_id}}-${{github.run_number}}
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+
+  print_outputs:
+    needs: [develop_pr_preview]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump extra values
+        env:
+          JOB_OUTPUTS: ${{ toJSON(needs.develop_pr_preview) }}
+        run: echo "$JOB_OUTPUTS"
