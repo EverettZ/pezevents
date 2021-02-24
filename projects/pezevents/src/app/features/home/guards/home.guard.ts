@@ -46,7 +46,7 @@ export class HomeGuard implements CanActivate, CanActivateChild {
     );
 
     userId$.subscribe((uid) => {
-      this.store.dispatch(userBusinesses.loadUserBusinessessApi({ uid: uid as string }))
+      this.store.dispatch(userBusinesses.loadBusinessessApi({ uid: uid as string }))
     })
     
     return true;

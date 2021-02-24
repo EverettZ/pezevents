@@ -39,7 +39,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatButtonModule,
     StoreModule.forFeature(fromBusiness.businessFeatureKey, fromBusiness.reducer),
     EffectsModule.forFeature([BusinessEffects, UserBusinessesEffects]),
-    StoreModule.forFeature(fromUserBusinesses.userBusinessesFeatureKey, fromUserBusinesses.reducer),
+    StoreModule.forFeature(fromUserBusinesses.BusinessesFeatureKey, fromUserBusinesses.reducer),
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
