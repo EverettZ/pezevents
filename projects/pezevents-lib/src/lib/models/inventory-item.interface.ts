@@ -1,16 +1,21 @@
 import { Note } from './note.interface';
 import { Role } from './role.enum';
+import { DocumentReference, CollectionReference } from '@angular/fire/firestore';
+import { Tag } from './tag.interface';
+import { BusinessEvent } from './business-event.interface';
 export interface InventoryItem  {
     id: string;
+
     displayName: string;
+    description?: string;
     photoUrl?: string;
-    description: string;
-    location: string;
-    uses: string[]; // References to business events
-    label: string;
+    location?: string;
     category?: string;
-    order: number;
-    role: Role;
+    order?: number;
+    role?: Role;
     quantity: number;
-    notes: Note[];
+    
+    tag: DocumentReference<Tag>; // Array of references to business inventory tags
+    uses?: DocumentReference<BusinessEvent>[]; // Array of references to business events
+    notes: CollectionReference<Note>; // Collection of notes
 }
