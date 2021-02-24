@@ -1,11 +1,48 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { Business, User } from '@pezetter/pezevents-lib';
+import { Business, User, SezzionNotification } from '@pezetter/pezevents-lib';
 import { firestore } from "firebase-admin";
 
 admin.initializeApp();
 // https://firebase.google.com/docs/functions/typescript
+const unauthenticatedErrorMessage = "Authentication is required to perform this action";
+const unauthorizedErrorMessage = (authId: string, id: string) => `Authenticated User (${authId}) cannot update user: ${id}`;
 
+const checkUnauthenticated = (data: { id: string }, authUid: string | null | undefined) => {
+    if (!authUid) {
+        return {
+            id: data.id,
+            error: unauthenticatedErrorMessage,
+            requestValue: data
+        }
+    }
+    return null;
+}
+const checkUnauthorizedErrorMessage = (data: { id: string }, authUid: string) => {
+
+    if (data.id != authUid) {
+        return {
+            id: data.id,
+            error: unauthorizedErrorMessage(authUid, data.id),
+            requestValue: data
+        }
+    }
+    return null;
+}
+const checkAuthErrorMessage = (data: { id: string }, authUid: string | null | undefined) => {
+
+    const authenticationError = checkUnauthenticated(data, authUid);
+    if(authenticationError) {
+        return authenticationError;
+    }
+    // If we made it here, authuid exists
+    const authorizedError = checkUnauthorizedErrorMessage(data, authUid as string);
+    if(authorizedError) {
+        return authorizedError;
+    }
+    return null;
+}
+ 
 
 //#region   businesses
 export const getBusinessById = functions.https.onCall(async (data: { id: string }, ctx) => {
@@ -146,33 +183,57 @@ export const getUsersBusinesses = functions.https.onCall(async (busRefs: Array<f
 
 
 //#region users
-
-export const getUserData = functions.https.onCall(async (data: { id: string}, ctx) => {
-    const uid = ctx?.auth?.uid || data.id;
-    try {
-        const userData = await firestore().collection("users").doc(uid).get();
-        const queryData = userData.data() as User;
-        const result: User = {
-            ...queryData,
-            id: uid
+export const getUserData = functions.https.onCall(async (data: { id: string }, ctx) => {
+    const authError = checkAuthErrorMessage(data, ctx.auth?.uid);
+    if(!authError) {
+        try {
+            const uid = ctx?.auth?.uid || data.id;
+            const userData = await firestore().collection("users").doc(uid).get();
+            const result = userData.data() as User;
+            functions.logger.info("Got user data", result);
+            return result;
+        } catch (error) {
+            functions.logger.info("Error getting user data", error);
+            return {
+                id: data.id
+            };
         }
-        functions.logger.info("getUserData Call!", result);
-        return result;
-    } catch (error) {
-        functions.logger.info("Error getUserData", error);
-        return {
-            id: uid
-        };
     }
+    return authError;
     // return userData
 });
 
-export const onCreateUser = functions.auth.user().onCreate(async (user) => {
+export const updateUserData = functions.https.onCall(async (data: User, ctx) => {
+    const authError = checkAuthErrorMessage(data, ctx.auth?.uid);
+    if(!authError) {
+        try {
+            const result = await firestore().collection("users").doc(data.id).update(data);
+            return result;
+        } catch (error) {
+            functions.logger.info("Error getUserData", error);
+            error = `User ${ctx?.auth?.uid} could not update user ${data.id}`;
+            return {
+                id: data.id,
+                error,
+                requestValue: data
+            };
+        }
+    
+    }
+
+    return authError;
+    // return userData
+});
+
+export const onCreateUser = functions.auth.user().onCreate((user) => {
     return createUserDoc(user)
 });
 
-const createUserDoc = ({ uid, email, emailVerified, displayName, phoneNumber, photoURL, disabled, metadata, providerData }: functions.auth.UserRecord) => {
+const createUserDoc = async ({ uid, email, emailVerified, displayName, phoneNumber, photoURL, disabled, metadata, providerData }: functions.auth.UserRecord) => {
     // Extract user auth record data for firestore data
+    const batch = firestore().batch();
+
+    const userDoc = firestore().collection("users").doc(uid);
     const userData: Partial<User> = {
         id: uid,
         photoUrl: photoURL ?? null,
@@ -183,29 +244,26 @@ const createUserDoc = ({ uid, email, emailVerified, displayName, phoneNumber, ph
         providerId: providerData.length ? providerData[0].providerId : "",
         businesses: [], // TODO: get all assigned businesses
         transactions: [],
-        notifications: [{
-            id: "init",
-            label: "Welcome to sezzion!",
-            value: "Thanks for signing up. Go ahead and dive in. Search for a business, add a businesses, create a business, and subscribe to events.",
-            created: new Date(),
-            viewed: false
-        }], // TODO: create initial signup notification
         displayName: displayName ?? "",
         isAnonymous: false,
         emailVerified,
         // disabled
     }
+    batch.set(userDoc, userData);
 
-    functions.logger.info("User created... Adding to firestore Users collection", uid);
+    const initNotificationDoc = userDoc.collection("notifications").doc();
+    const initialNotification: SezzionNotification = {
+        id: initNotificationDoc.id,
+        label: "Welcome to sezzion!",
+        value: "Thanks for signing up. Go ahead and dive in. Search for a business, add a businesses, create a business, and subscribe to events.",
+        created: new Date(),
+        viewed: false
+    };
+    batch.set(initNotificationDoc, initialNotification);
+
+
+    return await batch.commit();
     // Create a user document withing the users collection.
-    return firestore().collection("users").doc(uid).set(userData, { merge: true })
-        .then((value) => {
-            functions.logger.info(`User added to users collection:`);
-            return value;
-        }).catch(err => {
-            functions.logger.info(`User could not be added:`, err);
-            return err;
-        });
 }
 
 
