@@ -124,7 +124,6 @@ export const addUserBusiness = functions.https.onCall(async (data: Partial<Busin
 //     }
 // });
 
-// Add a user to a business. If.z
 // export const addUserToBusiness = functions.https.onCall(async (data, ctx) => {
 //     const uid = ctx?.auth?.uid || data.uid || null;
 //     let { email, displayName, role, businessId, newUserId, phoneNumber } = data;
