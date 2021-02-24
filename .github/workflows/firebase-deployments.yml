@@ -155,7 +155,7 @@ jobs:
   # dev.sezzion.com
   deploy:
     runs-on: ubuntu-latest
-    needs: [check_functions, check_env, build_and_publish_pezevents_lib]
+    needs: [check_functions, check_env]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
