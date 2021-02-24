@@ -9,8 +9,8 @@ import * as authSelector from '../../../../selectors/auth.selectors';
 import * as userBusinessesSelector from '../../../../selectors/user-businesses.selectors';
 import { Observable, of } from 'rxjs';
 import { map, share, take, switchMap } from 'rxjs/operators';
-import { CalendarView, CalendarEvent } from 'angular-calendar';
 
+import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
 
 @Component({
   selector: 'app-business',
@@ -23,37 +23,17 @@ export class BusinessComponent implements OnInit, OnDestroy {
   business$: Observable<Business>;
   user$: Observable<User>;
   subTitle$: Observable<string>;
-  view: CalendarView = CalendarView.Month;
 
   viewDate: Date = new Date();
 
-  events: CalendarEvent<EventMetadata>[] = [
-    {
-      start: new Date(),
-      title: `
-          <h4 class="d-inline mb-0">Private Lesson w/ Christine Vitkus</h4>
-          <strong class="d-block m-0">Instructor(s)</strong>
-          <small class="d-block m-0">Christine Vitkus</small>
-          <strong class="d-block m-0">Student(s)</strong>
-          <small class="d-block m-0">Everett Zettersten</small>
-      `,
-      color: {
-        primary: '#ad2121',
-        secondary: '#FAE3E3',
-      },
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-      meta: {
-        organizers: [],
-        attendees: [],
-        inventory: [],
-        description: "This is an even description"
-      }
-    },
-  ];
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    events: [
+      { title: 'event 1', date: '2019-04-01' },
+      { title: 'event 2', date: '2019-04-02' }
+    ]
+  };
+
 
   private readonly darkThemeClass = 'dark-theme';
 

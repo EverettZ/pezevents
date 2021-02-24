@@ -16,7 +16,15 @@ import { UserBusinessesEffects } from '../../effects/user-businesses.effects';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CalendarModule } from '../../shared/calendar/calendar.module';
+
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -35,7 +43,7 @@ import { CalendarModule } from '../../shared/calendar/calendar.module';
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
-    CalendarModule
+    FullCalendarModule // register FullCalendar with you app
   ]
 })
 export class HomeModule { }

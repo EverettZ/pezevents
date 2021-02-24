@@ -1,3 +1,4 @@
+import { BusinessService } from './../services/business.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, concatMap, switchMap } from 'rxjs/operators';
@@ -13,21 +14,21 @@ export class UserBusinessesEffects {
 
   loadUserBusinessessApi$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserBusinessesActions.loadUserBusinessessApi),
+      ofType(UserBusinessesActions.loadBusinessessApi),
       switchMap(({ uid }) => {
-        return this.user.getUserDataBusinesses(uid);
+        return this.business.getUsersBusinesses(uid);
       }),
       map((businesses) => {
-        return UserBusinessesActions.loadUserBusinesses({ businesses })
+        return UserBusinessesActions.loadBusinesses({ businesses })
       }),
       catchError((error) => {
-        return of(UserBusinessesActions.loadUserBusinessessApiFailure({ error }));
+        return of(UserBusinessesActions.loadBusinessessApiFailure({ error }));
       })
     );
   });
 
 
 
-  constructor(private actions$: Actions, private user: UserService) { }
+  constructor(private actions$: Actions, private business: BusinessService) { }
 
 }

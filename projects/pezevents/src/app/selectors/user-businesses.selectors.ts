@@ -1,44 +1,44 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromUserBusinesses from '../reducers/user-businesses.reducer';
-import { UserBusiness } from '@pezetter/pezevents-lib'
+import * as fromBusinesses from '../reducers/user-businesses.reducer';
+import { Business } from '@pezetter/pezevents-lib'
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
-export const selectUserBusinessesState = createFeatureSelector<fromUserBusinesses.State>(fromUserBusinesses.userBusinessesFeatureKey);
+export const selectBusinessesState = createFeatureSelector<fromBusinesses.State>(fromBusinesses.BusinessesFeatureKey);
 
 export interface State {
-  businesses: fromUserBusinesses.State;
+  businesses: fromBusinesses.State;
 }
  
 export const reducers: ActionReducerMap<State> = {
-  businesses: fromUserBusinesses.reducer,
+  businesses: fromBusinesses.reducer,
 };
  
-export const selectUserBusinessesIds = createSelector(
-  selectUserBusinessesState,
-  fromUserBusinesses.selectUserBusinessesIds // shorthand for usersState => fromUser.selectUserBusinessesIds(usersState)
+export const selectBusinessesIds = createSelector(
+  selectBusinessesState,
+  fromBusinesses.selectBusinessesIds // shorthand for usersState => fromUser.selectBusinessesIds(usersState)
 );
-export const selectUserBusinessesEntities = createSelector(
-  selectUserBusinessesState,
-  fromUserBusinesses.selectUserBusinessesEntities
+export const selectBusinessesEntities = createSelector(
+  selectBusinessesState,
+  fromBusinesses.selectBusinessesEntities
 );
-export const selectAllUserBusinesses = createSelector(
-  selectUserBusinessesState,
-  fromUserBusinesses.selectAllUserBusinesses
+export const selectAllBusinesses = createSelector(
+  selectBusinessesState,
+  fromBusinesses.selectAllBusinesses
 );
-export const selectUserBusinessesTotal = createSelector(
-  selectUserBusinessesState,
-  fromUserBusinesses.selectUserBusinessesTotal
+export const selectBusinessesTotal = createSelector(
+  selectBusinessesState,
+  fromBusinesses.selectBusinessesTotal
 );
-export const selectCurrentUserBusinessId = createSelector(
-  selectUserBusinessesState,
-  fromUserBusinesses.getSelectedUserBusinessId
+export const selectCurrentBusinessId = createSelector(
+  selectBusinessesState,
+  fromBusinesses.getSelectedBusinessId
 );
-export const selectCurrentUserBusiness = createSelector(
-  selectUserBusinessesEntities,
-  selectCurrentUserBusinessId,
+export const selectCurrentBusiness = createSelector(
+  selectBusinessesEntities,
+  selectCurrentBusinessId,
   (userEntities, businessId) => businessId ? userEntities[businessId] : null
 );
 export const selectBusinessById = (id: string) => createSelector(
-  selectUserBusinessesEntities,
-  (userBusinessEntities) => id ? userBusinessEntities[id] : null
+  selectBusinessesEntities,
+  (BusinessEntities) => id ? BusinessEntities[id] : null
 );

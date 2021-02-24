@@ -14,7 +14,7 @@ const ROOT_COLLECTION = 'businesses';
 export class BusinessService {
 
   private addUserBusiness = this.functions.httpsCallable("addUserBusiness");
-  private getBusinessesByUserId = this.functions.httpsCallable("getBusinessesByUserId", );
+  private GET_USERS_BUSINESSES = this.functions.httpsCallable("getUsersBusinesses");
   private GET_BUSINESS_BY_ID = this.functions.httpsCallable("getBusinessById");
 
   constructor(private firestore: AngularFirestore, private functions: AngularFireFunctions) {
@@ -41,8 +41,8 @@ export class BusinessService {
     )
   }
 
-  public getAllUserAddedBusinesses(uid: string) {
-    return this.getBusinessesByUserId({ uid })
+  public getUsersBusinesses(id: string) {
+    return this.GET_USERS_BUSINESSES({ id }) as Observable<Business[]>
   }
 
 }

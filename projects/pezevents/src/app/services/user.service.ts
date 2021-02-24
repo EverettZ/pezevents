@@ -14,7 +14,6 @@ const BASE_COLLECTION = 'users';
 export class UserService {
 
   private GET_USER_DATA = this.functions.httpsCallable("getUserData");
-  private GET_USER_DATA_BUSINESSES = this.functions.httpsCallable("getUserDataBusinesses");
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private functions: AngularFireFunctions) { }
 
@@ -60,12 +59,6 @@ export class UserService {
   //#region User Businesses
   public getUserData(uid: string) {
     return this.GET_USER_DATA({ uid });
-  }
-
-  public getUserDataBusinesses(uid: string): Observable<UserBusiness[]> {
-    return this.GET_USER_DATA_BUSINESSES({ uid }).pipe(
-      map(result => result.businesses)
-    );
   }
   //#endregion
 }

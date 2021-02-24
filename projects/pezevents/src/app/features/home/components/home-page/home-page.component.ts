@@ -17,11 +17,11 @@ import * as businessActions from '../../../../actions/business.actions';
 export class HomePageComponent implements OnInit  {
 
   business: Business | null;
-  userBusinesses$: Observable<UserBusiness[]>;
+  userBusinesses$: Observable<Business[]>;
 
   constructor(private route: ActivatedRoute, private router: Router, private store: Store) {
     this.business = null;
-    this.userBusinesses$ = this.store.select(userBusinessesSelector.selectAllUserBusinesses);
+    this.userBusinesses$ = this.store.select(userBusinessesSelector.selectAllBusinesses);
 
     this.store.dispatch(businessActions.clearSelectedId())
   }

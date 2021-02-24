@@ -1,94 +1,94 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import * as UserBusinessesActions from '../actions/user-businesses.actions';
-import { UserBusiness } from '@pezetter/pezevents-lib'
+import * as BusinessesActions from '../actions/user-businesses.actions';
+import { Business } from '@pezetter/pezevents-lib'
 
-export const userBusinessesFeatureKey = 'userBusinesses';
+export const BusinessesFeatureKey = 'Businesses';
 
-export interface State extends EntityState<UserBusiness> {
-  selectedUserBusinessId: string | null;
+export interface State extends EntityState<Business> {
+  selectedBusinessId: string | null;
 }
 
-export const adapter: EntityAdapter<UserBusiness> = createEntityAdapter<UserBusiness>({
+export const adapter: EntityAdapter<Business> = createEntityAdapter<Business>({
   sortComparer: sortByName,
 });
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
-  selectedUserBusinessId: null
+  selectedBusinessId: null
 });
 
 
-export function selectUserBusinessId(a: UserBusiness): string {
+export function selectBusinessId(a: Business): string {
   //In this case this would be optional since primary key is id
-  return a.id;
+  return a.id ?? '';
 }
  
-export function sortByName(a: UserBusiness, b: UserBusiness): number {
+export function sortByName(a: Business, b: Business): number {
   return a.displayName.localeCompare(b.displayName);
 } 
 
 
-const userBusinessReducer = createReducer(
+const BusinessReducer = createReducer(
   initialState,
 
   //#region custom actions
-  on(UserBusinessesActions.loadUserBusinessessApi, state => state),
-  on(UserBusinessesActions.loadUserBusinessessApiSuccess, (state, action) => state),
-  on(UserBusinessesActions.loadUserBusinessessApiFailure, (state, action) => state),
+  on(BusinessesActions.loadBusinessessApi, state => state),
+  on(BusinessesActions.loadBusinessessApiSuccess, (state, action) => state),
+  on(BusinessesActions.loadBusinessessApiFailure, (state, action) => state),
   //#endregion
 
   //#region entityAdaper actions
-  on(UserBusinessesActions.addUserBusiness, (state, { business }) => {
+  on(BusinessesActions.addBusiness, (state, { business }) => {
     return adapter.addOne(business, state)
   }),
-  on(UserBusinessesActions.setUserBusiness, (state, { business }) => {
+  on(BusinessesActions.setBusiness, (state, { business }) => {
     return adapter.setOne(business, state)
   }),
-  on(UserBusinessesActions.upsertUserBusiness, (state, { business }) => {
+  on(BusinessesActions.upsertBusiness, (state, { business }) => {
     return adapter.upsertOne(business, state);
   }),
-  on(UserBusinessesActions.addUserBusinesses, (state, { businesses }) => {
+  on(BusinessesActions.addBusinesses, (state, { businesses }) => {
     return adapter.addMany(businesses, state);
   }),
-  on(UserBusinessesActions.upsertUserBusinesses, (state, { businesses }) => {
+  on(BusinessesActions.upsertBusinesses, (state, { businesses }) => {
     return adapter.upsertMany(businesses, state);
   }),
-  on(UserBusinessesActions.updateUserBusiness, (state, { update }) => {
+  on(BusinessesActions.updateBusiness, (state, { update }) => {
     return adapter.updateOne(update, state);
   }),
-  on(UserBusinessesActions.updateUserBusinesses, (state, { updates }) => {
+  on(BusinessesActions.updateBusinesses, (state, { updates }) => {
     return adapter.updateMany(updates, state);
   }),
-  on(UserBusinessesActions.mapUserBusiness, (state, { entityMap }) => {
+  on(BusinessesActions.mapBusiness, (state, { entityMap }) => {
     return adapter.mapOne(entityMap, state);
   }),
-  on(UserBusinessesActions.mapUserBusinesses, (state, { entityMap }) => {
+  on(BusinessesActions.mapBusinesses, (state, { entityMap }) => {
     return adapter.map(entityMap, state);
   }),
-  on(UserBusinessesActions.deleteUserBusiness, (state, { id }) => {
+  on(BusinessesActions.deleteBusiness, (state, { id }) => {
     return adapter.removeOne(id, state);
   }),
-  on(UserBusinessesActions.deleteUserBusinesses, (state, { ids }) => {
+  on(BusinessesActions.deleteBusinesses, (state, { ids }) => {
     return adapter.removeMany(ids, state);
   }),
-  on(UserBusinessesActions.deleteBusinessesByPredicate, (state, { predicate }) => {
+  on(BusinessesActions.deleteBusinessesByPredicate, (state, { predicate }) => {
     return adapter.removeMany(predicate, state);
   }),
-  on(UserBusinessesActions.loadUserBusinesses, (state, { businesses }) => {
+  on(BusinessesActions.loadBusinesses, (state, { businesses }) => {
     return adapter.setAll(businesses, state);
   }),
-  on(UserBusinessesActions.clearUserBusinesses, state => {
-    return adapter.removeAll({ ...state, selectedUserBusinessId: null  });
+  on(BusinessesActions.clearBusinesses, state => {
+    return adapter.removeAll({ ...state, selectedBusinessId: null  });
   })
   //#endregion
 );
 
 export function reducer(state: State | undefined, action: Action) {
-  return userBusinessReducer(state, action);
+  return BusinessReducer(state, action);
 }
  
-export const getSelectedUserBusinessId = (state: State) => state.selectedUserBusinessId;
+export const getSelectedBusinessId = (state: State) => state.selectedBusinessId;
  
 // get the selectors
 const {
@@ -99,13 +99,13 @@ const {
 } = adapter.getSelectors();
  
 // select the array of user ids
-export const selectUserBusinessesIds = selectIds;
+export const selectBusinessesIds = selectIds;
  
 // select the dictionary of user entities
-export const selectUserBusinessesEntities = selectEntities;
+export const selectBusinessesEntities = selectEntities;
  
 // select the array of users
-export const selectAllUserBusinesses = selectAll;
+export const selectAllBusinesses = selectAll;
  
 // select the total user count
-export const selectUserBusinessesTotal = selectTotal;
+export const selectBusinessesTotal = selectTotal;
