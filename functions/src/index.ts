@@ -32,17 +32,17 @@ const checkUnauthorizedErrorMessage = (data: { id: string }, authUid: string) =>
 const checkAuthErrorMessage = (data: { id: string }, authUid: string | null | undefined) => {
 
     const authenticationError = checkUnauthenticated(data, authUid);
-    if(authenticationError) {
+    if (authenticationError) {
         return authenticationError;
     }
     // If we made it here, authuid exists
     const authorizedError = checkUnauthorizedErrorMessage(data, authUid as string);
-    if(authorizedError) {
+    if (authorizedError) {
         return authorizedError;
     }
     return null;
 }
- 
+
 
 //#region   businesses
 export const getBusinessById = functions.https.onCall(async (data: { id: string }, ctx) => {
@@ -185,7 +185,7 @@ export const getUsersBusinesses = functions.https.onCall(async (busRefs: Array<f
 //#region users
 export const getUserData = functions.https.onCall(async (data: { id: string }, ctx) => {
     const authError = checkAuthErrorMessage(data, ctx.auth?.uid);
-    if(!authError) {
+    if (!authError) {
         try {
             const uid = ctx?.auth?.uid || data.id;
             const userData = await firestore().collection("users").doc(uid).get();
@@ -205,7 +205,7 @@ export const getUserData = functions.https.onCall(async (data: { id: string }, c
 
 export const updateUserData = functions.https.onCall(async (data: User, ctx) => {
     const authError = checkAuthErrorMessage(data, ctx.auth?.uid);
-    if(!authError) {
+    if (!authError) {
         try {
             const result = await firestore().collection("users").doc(data.id).update(data);
             return result;
@@ -218,7 +218,7 @@ export const updateUserData = functions.https.onCall(async (data: User, ctx) => 
                 requestValue: data
             };
         }
-    
+
     }
 
     return authError;
@@ -231,7 +231,7 @@ export const onCreateUser = functions.auth.user().onCreate((user) => {
 
 const createUserDoc = async ({ uid, email, emailVerified, displayName, phoneNumber, photoURL, disabled, metadata, providerData }: functions.auth.UserRecord) => {
     // Extract user auth record data for firestore data
-    const batch = firestore().batch();
+    // const batch = firestore().batch();
 
     const userDoc = firestore().collection("users").doc(uid);
     const userData: Partial<User> = {
@@ -249,7 +249,15 @@ const createUserDoc = async ({ uid, email, emailVerified, displayName, phoneNumb
         emailVerified,
         // disabled
     }
-    batch.set(userDoc, userData);
+    await userDoc.set(userData).then(val => {
+        functions.logger.info("userDocSetResult - Success", val.writeTime);
+        return "success"
+    }).catch(err => {
+        functions.logger.error("userDocSetResult - Error", err);
+        return "error"
+    });
+
+    // batch.set(userDoc, userData);
 
     const initNotificationDoc = userDoc.collection("notifications").doc();
     const initialNotification: SezzionNotification = {
@@ -259,10 +267,18 @@ const createUserDoc = async ({ uid, email, emailVerified, displayName, phoneNumb
         created: new Date(),
         viewed: false
     };
-    batch.set(initNotificationDoc, initialNotification);
+    await initNotificationDoc.set(initialNotification).then(val => {
+        functions.logger.info("notificationDocSetResult - Success", val.writeTime);
+        return "success"
+    }).catch(err => {
+        functions.logger.error("notificationDocSetResult - Error", err);
+        return "error"
+    });
+
+    // batch.set(initNotificationDoc, initialNotification);
 
 
-    return await batch.commit();
+    return null;
     // Create a user document withing the users collection.
 }
 
