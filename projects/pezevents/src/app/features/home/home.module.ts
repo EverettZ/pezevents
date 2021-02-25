@@ -10,16 +10,17 @@ import { StoreModule } from '@ngrx/store';
 import * as fromBusiness from '../../reducers/business.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { BusinessEffects } from '../../effects/business.effects';
-import { BusinessComponent } from './components/business/business.component';
 import * as fromUserBusinesses from '../../reducers/user-businesses.reducer';
 import { UserBusinessesEffects } from '../../effects/user-businesses.effects';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction';
+import { BusinessesComponent } from './components/businesses/businesses.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -29,7 +30,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 @NgModule({
   declarations: [
     HomePageComponent,
-    BusinessComponent
+    BusinessesComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +44,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
+    MatExpansionModule,
     FullCalendarModule // register FullCalendar with you app
   ]
 })

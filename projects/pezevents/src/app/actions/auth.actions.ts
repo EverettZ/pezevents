@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import * as auth from "../reducers/auth.reducer";
-import { UserData, User, LoadingStatus } from '@pezetter/pezevents-lib';
+import { User, LoadingStatus } from '@pezetter/pezevents-lib';
 // #region - loadAuths actions
 // Actions used to load user information from AngularFirebaseAuth
 // loadAuths - load user information
@@ -85,7 +85,7 @@ export const loadUserData = createAction(
 );
 export const loadUserDataSuccess = createAction(
   '[Auth] Load user data Success',
-  props<{ userData: UserData}>()
+  props<{ userData: User}>()
 );
 export const loadUserDataFailure = createAction(
   '[Auth] Load user data Failure',

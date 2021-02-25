@@ -1,5 +1,6 @@
-import { Business } from '@pezetter/pezevents-lib'
 import { Component, OnInit } from '@angular/core';
+import { Business } from '@pezetter/pezevents-lib'
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as userBusinesses from '../../../../actions/user-businesses.actions';
@@ -10,20 +11,22 @@ import { map, share, take } from 'rxjs/operators';
 import * as businessActions from '../../../../actions/business.actions';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  selector: 'app-businesses',
+  templateUrl: './businesses.component.html',
+  styleUrls: ['./businesses.component.scss']
 })
-export class HomePageComponent implements OnInit  {
+export class BusinessesComponent implements OnInit {
 
+  business: Business | null;
+  userBusinesses$: Observable<Business[]>;
 
   constructor(private route: ActivatedRoute, private router: Router, private store: Store) {
-    this.store.dispatch(businessActions.clearSelectedId())
+
+    this.business = null;
+    this.userBusinesses$ = this.store.select(userBusinessesSelector.selectAllBusinesses);
   }
 
   ngOnInit(): void {
-
-
   }
 
 }

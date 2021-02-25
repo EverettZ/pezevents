@@ -164,15 +164,14 @@ export const getUsersBusinesses = functions.https.onCall(async (busRefs: Array<f
         throw new Error("User ID not provided");
     }
     try {
-        const result: Business[] = (await firestore().getAll(...busRefs)).map(b => b.data() as Business);
-        functions.logger.info("getUserData Call!", result);
-        return result;
+        const businesses: Business[] = (await firestore().getAll(...busRefs)).map(b => b.data() as Business);
+        functions.logger.info("getUserData Call!", businesses);
+        return {
+            businesses
+        };
     } catch (error) {
         functions.logger.info("Error getUserData", error);
         return {
-            user: {
-                id: uid
-            },
             businesses: []
         };
     }

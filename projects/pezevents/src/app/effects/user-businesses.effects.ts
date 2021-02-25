@@ -15,8 +15,8 @@ export class UserBusinessesEffects {
   loadUserBusinessessApi$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserBusinessesActions.loadBusinessessApi),
-      switchMap(({ uid }) => {
-        return this.business.getUsersBusinesses(uid);
+      switchMap(({businesses}) => {
+        return this.business.getUsersBusinesses(businesses);
       }),
       map((businesses) => {
         return UserBusinessesActions.loadBusinesses({ businesses })

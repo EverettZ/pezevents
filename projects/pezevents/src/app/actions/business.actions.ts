@@ -4,33 +4,33 @@ import { Business } from '@pezetter/pezevents-lib';
 
 
 export const loadBusinessApi = createAction(
-  '[Business] Load Business',
+  '[PublicBusiness] Load Business',
   props<{ id: string }>()
 );
 
 export const loadBusinessApiSuccess = createAction(
-  '[Business] Load Business Success',
+  '[PublicBusiness] Load Business Success',
   props<{ data: Business }>()
 );
 
 export const loadBusinessApiFailure = createAction(
-  '[Business] Load Business Failure',
+  '[PublicBusiness] Load Business Failure',
   props<{ error: any }>()
 );
 
 
-export const loadBusinesses = createAction('[Business] Load Businesses', props<{ businesses: Business[] }>());
-export const addBusiness = createAction('[Business] Add Business', props<{ business: Business }>());
-export const setBusiness = createAction('[Business] Set Business', props<{ business: Business }>());
-export const upsertBusiness = createAction('[Business] Upsert Business', props<{ business: Business }>());
-export const addBusinesses = createAction('[Business] Add Businesses', props<{ businesses: Business[] }>());
-export const upsertBusinesses = createAction('[Business] Upsert Businesses', props<{ businesses: Business[] }>());
-export const updateBusiness = createAction('[Business] Update Business', props<{ update: Update<Business> }>());
-export const updateBusinesses = createAction('[Business] Update Businesses', props<{ updates: Update<Business>[] }>());
-export const mapBusiness = createAction('[Business] Map Business', props<{ entityMap: EntityMapOne<Business> }>());
-export const mapBusinesses = createAction('[Business] Map Businesses', props<{ entityMap: EntityMap<Business> }>());
-export const deleteBusiness = createAction('[Business] Delete Business', props<{ id: string }>());
-export const deleteBusinesses = createAction('[Business] Delete Businesses', props<{ ids: string[] }>());
-export const deleteBusinessesByPredicate = createAction('[Business] Delete Businesses By Predicate', props<{ predicate: Predicate<Business> }>());
-export const clearBusinesses = createAction('[Business] Clear Businesss');
-export const clearSelectedId = createAction('[Business] Clear Selected Business ID');
+export const loadBusinesses = createAction('[PublicBusiness] Load Businesses', props<{ businesses: Business[] }>());
+export const addBusiness = createAction('[PublicBusiness] Add Business', props<{ business: Business }>());
+export const setBusiness = createAction('[PublicBusiness] Set Business', props<{ business: Business }>());
+export const upsertBusiness = createAction('[PublicBusiness] Upsert Business', props<{ business: Business }>());
+export const addBusinesses = createAction('[PublicBusiness] Add Businesses', props<{ businesses: Business[] }>());
+export const upsertBusinesses = createAction('[PublicBusiness] Upsert Businesses', props<{ businesses: Business[] }>());
+export const updateBusiness = createAction('[PublicBusiness] Update Business', props<{ update: Update<Business> }>());
+export const updateBusinesses = createAction('[PublicBusiness] Update Businesses', props<{ updates: Update<Business>[] }>());
+export const mapBusiness = createAction('[PublicBusiness] Map Business', props<{ entityMap: EntityMapOne<Business> }>());
+export const mapBusinesses = createAction('[PublicBusiness] Map Businesses', props<{ entityMap: EntityMap<Business> }>());
+export const deleteBusiness = createAction('[PublicBusiness] Delete Business', props<{ id: string }>());
+export const deleteBusinesses = createAction('[PublicBusiness] Delete Businesses', props<{ ids: string[] }>());
+export const deleteBusinessesByPredicate = createAction('[PublicBusiness] Delete Businesses By Predicate', props<{ predicate: Predicate<Business> }>());
+export const clearBusinesses = createAction('[PublicBusiness] Clear Businesss');
+export const clearSelectedId = createAction('[PublicBusiness] Clear Selected Business ID');

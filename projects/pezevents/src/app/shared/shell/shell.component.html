@@ -28,7 +28,7 @@
           <!-- <a mat-button routerLink="/auth/login" *ngIf="!(user$ | async)">🔑 Login</a> -->
           <ng-container *ngIf="user$ | async as user">
             <a mat-button routerLink="/auth/profile">
-              <img class="avatar" [src]="user.photoURL || 'assets/default-user.svg'">
+              <img class="avatar" [src]="user.photoUrl || 'assets/default-user.svg'">
               Profile
             </a>
             <button mat-icon-button (click)="signOut()">

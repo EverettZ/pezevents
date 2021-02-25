@@ -19,7 +19,7 @@ export interface User extends Address  {
     isAnonymous: boolean;
     emailVerified: boolean;
     
-    transactions: DocumentReference<Transaction>[]; // References to all bussiness/transactions/{businessId}
-    notifications: CollectionReference<SezzionNotification>;
-    businesses: DocumentReference<Business>[]; // References to bussiness/{businessId}
+    transactions?: DocumentReference<Transaction>[]; // References to all bussiness/transactions/{businessId}
+    notifications?: CollectionReference<SezzionNotification>;
+    businesses?: DocumentReference<Business>[]; // References to bussiness/{businessId}
 }

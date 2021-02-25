@@ -5,13 +5,14 @@ import { EMPTY, from, of } from 'rxjs';
 
 import * as AuthActions from '../actions/auth.actions';
 import { UserService } from '../services/user.service';
-import { LoadingType, ViewStatus } from '@pezetter/pezevents-lib'
+import { Gender, LoadingType, SezzionNotification, ViewStatus } from '@pezetter/pezevents-lib'
 import { Router } from '@angular/router';
 import { reset } from '../actions/auth.actions';
 import { User } from '@pezetter/pezevents-lib'
 import { SnackService } from '../services/snack.service';
 import * as authReducer from '../reducers/auth.reducer';
 import { UserInfo } from '@firebase/auth-types';
+import { CollectionReference } from '@angular/fire/firestore';
 
 
 
@@ -226,16 +227,26 @@ export class AuthEffects {
 
 }
 function extractUserAuthData({ displayName, uid, email, phoneNumber, photoURL, providerId, isAnonymous, emailVerified, metadata }: firebase.default.User) {
-  const userData: User = {
-    displayName,
-    uid,
-    email,
-    phoneNumber,
-    photoURL,
+  const userData = {
+    displayName: displayName ?? "",
+    id: uid,
+    email: email ?? "",
+    phoneNumber: phoneNumber ?? "",
+    photoUrl: photoURL,
     providerId,
-    createdAt: metadata.creationTime,
-    lastLoginAt: metadata.lastSignInTime,
+    created: metadata.creationTime ? new Date(metadata.creationTime) : new Date(),
+    lastSignIn: metadata.lastSignInTime ? new Date(metadata.lastSignInTime) : new Date(),
     isAnonymous,
+    dob: new Date(),
+    gender: Gender.Male,
+    transactions: [],
+    businesses: [],
+    notifications: {} as CollectionReference<SezzionNotification>,
+    address1: "",
+    address2: "",
+    zip: "",
+    state: "",
+    city: "",
     emailVerified
   };
   return AuthActions.authenticated({ user: userData });

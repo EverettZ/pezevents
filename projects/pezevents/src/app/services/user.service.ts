@@ -5,7 +5,6 @@ import { of, throwError, Observable, from } from 'rxjs';
 import * as firebase from 'firebase';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { UserBusiness } from '@pezetter/pezevents-lib';
 
 const BASE_COLLECTION = 'users';
 @Injectable({

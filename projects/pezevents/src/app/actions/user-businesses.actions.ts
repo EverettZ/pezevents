@@ -1,10 +1,11 @@
 import { EntityMap, EntityMapOne, Predicate, Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { Business } from '@pezetter/pezevents-lib';
+import { DocumentReference } from '@angular/fire/firestore';
 
 export const loadBusinessessApi = createAction(
   '[Businesss] Load Businessess',
-  props<{ uid: string }>()
+  props<{ businesses: DocumentReference<Business>[] }>()
 );
 
 export const loadBusinessessApiSuccess = createAction(
